@@ -62,7 +62,7 @@ namespace Yj.ArcSoftSDK._4_0
         {
 #if NETFRAMEWORK
             Image needImage = null;
-            using (MemoryStream ms = new MemoryStream(imageBuffer))
+            using (var ms = new MemoryStream(imageBuffer))
             {
                 needImage = new Bitmap(ms);
             }
@@ -71,16 +71,16 @@ namespace Yj.ArcSoftSDK._4_0
 #endif
             if (needCheckImage)
             {
-                needImage = ImageUtil.CheckImage(needImage);
+                var newneedImage = ImageUtil.CheckImage(needImage);
+                needImage.Dispose();
+                needImage = newneedImage;
             }
             var imageInfo = ImageUtil.GetImageData(needImage);
             var result = DetectFacesEx(pEngine, imageInfo, faceMinWith, needFaceInfo, needRgbLive, needIrLive
                 , needFeatures, needImageQuality, isRegister);
             MemoryUtil.Free(ref imageInfo.ppu8Plane[0]);
-            if (needCheckImage)
-            {
-                needImage.Dispose();
-            }
+            needImage.Dispose();
+
             return result;
         }
 

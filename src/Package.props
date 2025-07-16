@@ -11,7 +11,7 @@
         <Nullable>disable</Nullable>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Revision)</FileVersion>
-        <Version>2024.06.27.1</Version>
+        <Version>2025.06.20.2</Version>
         <Platforms>AnyCPU</Platforms>
         <NeutralLanguage>zh-Hans</NeutralLanguage>
         <Authors>yangjieshao</Authors>

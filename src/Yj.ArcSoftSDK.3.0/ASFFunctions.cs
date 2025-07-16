@@ -70,7 +70,9 @@ namespace Yj.ArcSoftSDK
 #endif
             if (needCheckImage)
             {
-                needImage = ImageUtil.CheckImage(needImage);
+                var newneedImage = ImageUtil.CheckImage(needImage);
+                needImage.Dispose();
+                needImage = newneedImage;
             }
             if (needImage != null)
             {
@@ -80,10 +82,7 @@ namespace Yj.ArcSoftSDK
                     result = DetectFaces(pEngine, imageInfo, faceMinWith, needFaceInfo, needRgbLive, needIrLive, needFeatures);
                     MemoryUtil.Free(imageInfo.ImgData);
                 }
-                if (needCheckImage)
-                {
-                    needImage.Dispose();
-                }
+                needImage.Dispose();
             }
             return result;
         }
@@ -178,7 +177,7 @@ namespace Yj.ArcSoftSDK
         {
 #if NETFRAMEWORK
             Image needImage = null;
-            using (MemoryStream ms = new MemoryStream(imageBuffer))
+            using (var ms = new MemoryStream(imageBuffer))
             {
                 needImage = new Bitmap(ms);
             }
@@ -187,7 +186,9 @@ namespace Yj.ArcSoftSDK
 #endif
             if (needCheckImage)
             {
-                needImage = ImageUtil.CheckImage(needImage);
+                var newneedImage = ImageUtil.CheckImage(needImage);
+                needImage.Dispose();
+                needImage = newneedImage;
             }
             var imageInfo = ImageUtil.GetImageData(needImage);
             var result = DetectFacesEx(pEngine, imageInfo, faceMinWith, needFaceInfo, needRgbLive, needIrLive, needFeatures, needImageQuality);
